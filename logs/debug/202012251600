@@ -1,0 +1,20 @@
+time="2020-12-25T16:02:15+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-25T16:02:15+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T16:02:15+08:00" level=debug msg="验证成功"
+time="2020-12-25T16:02:15+08:00" level=debug msg=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGV0aW1lIjoiMjAyMC0xMi0yNSAxNjowMjoxNSIsInVzZXJpZCI6NH0.SoIXqbReeu7-gDierFDCpwGLnarXbVXG6PlEt2J5KaI
+time="2020-12-25T16:28:52+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-25T16:28:52+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T16:28:52+08:00" level=debug msg="验证成功"
+time="2020-12-25T16:28:52+08:00" level=debug msg=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGV0aW1lIjoiMjAyMC0xMi0yNSAxNjoyODo1MiIsInVzZXJpZCI6NH0.MIzU2Vh8NUuqYhRTipXdMraZ7o6tnfwAe7wOVnUe4sc
+time="2020-12-25T16:53:57+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-25T16:53:57+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T16:53:57+08:00" level=debug msg="验证成功"
+time="2020-12-25T16:53:57+08:00" level=debug msg=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGV0aW1lIjoiMjAyMC0xMi0yNSAxNjo1Mzo1NyIsInVzZXJpZCI6NH0.6G3iXC6jHC9hIp-DVGtfanqC1HDaxR29kQIpy4Ksqdc
+time="2020-12-25T16:54:35+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-25T16:54:35+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T16:54:35+08:00" level=debug msg="验证成功"
+time="2020-12-25T16:54:35+08:00" level=debug msg=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGV0aW1lIjoiMjAyMC0xMi0yNSAxNjo1NDozNSIsInVzZXJpZCI6NH0.XVeMi4q7EOS1Dw-TVz8lhO6zspaJ1dRNV9ZH0pv3nn0
+time="2020-12-25T16:55:41+08:00" level=debug msg="&{Username:test002 Passwd:123}"
+time="2020-12-25T16:55:41+08:00" level=debug msg="&{Userid:6 Username:test002 Passwd:123 Thirdid: Nickname:test002 Nickname2: Createtime:2020-12-25 14:39:43 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T16:55:41+08:00" level=debug msg="验证成功"
+time="2020-12-25T16:55:41+08:00" level=debug msg=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGV0aW1lIjoiMjAyMC0xMi0yNSAxNjo1NTo0MSIsInVzZXJpZCI6Nn0.OTF2AZ9XmU9Vqkaos7NLOyon4tBVXO8dSdtxN3GZSck

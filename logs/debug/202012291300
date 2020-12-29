@@ -1,0 +1,86 @@
+time="2020-12-29T13:21:06+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-29T13:21:06+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-29T13:21:06+08:00" level=debug msg="登入验证成功"
+time="2020-12-29T13:21:06+08:00" level=debug msg=ad0c23502abaf2d4df91af5f37dee8e4
+time="2020-12-29T13:21:06+08:00" level=debug msg="token 写入db完成"
+time="2020-12-29T13:21:06+08:00" level=debug msg="StructToRedis name: Userid  value: '4'"
+time="2020-12-29T13:21:06+08:00" level=debug msg="StructToRedis name: Token  value: 'ad0c23502abaf2d4df91af5f37dee8e4'"
+time="2020-12-29T13:21:06+08:00" level=debug msg="StructToRedis name: Updatetime  value: '2020-12-29 13:21:06.6106347 +0800 CST'"
+time="2020-12-29T13:21:10+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:21:10+08:00" level=debug msg="redis token: [[85 115 101 114 105 100] [52] [84 111 107 101 110] [97 100 48 99 50 51 53 48 50 97 98 97 102 50 100 52 100 102 57 49 97 102 53 102 51 55 100 101 101 56 101 52] [85 112 100 97 116 101 116 105 109 101] [50 48 50 48 45 49 50 45 50 57 32 49 51 58 50 49 58 48 54 46 54 49 48 54 51 52 55 32 43 48 56 48 48 32 67 83 84]]"
+time="2020-12-29T13:38:24+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:38:24+08:00" level=debug msg="redis token: []"
+time="2020-12-29T13:43:32+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:43:32+08:00" level=debug msg="redis token: []"
+time="2020-12-29T13:43:39+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-29T13:43:40+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-29T13:43:40+08:00" level=debug msg="登入验证成功"
+time="2020-12-29T13:43:40+08:00" level=debug msg=a2797c5c119e41830a417354e0e0a3f7
+time="2020-12-29T13:43:40+08:00" level=debug msg="token 写入db完成"
+time="2020-12-29T13:43:40+08:00" level=debug msg="StructToRedis name: Userid  value: '4'"
+time="2020-12-29T13:43:40+08:00" level=debug msg="StructToRedis name: Token  value: 'a2797c5c119e41830a417354e0e0a3f7'"
+time="2020-12-29T13:43:40+08:00" level=debug msg="StructToRedis name: Updatetime  value: '2020-12-29 13:43:40.0120159 +0800 CST'"
+time="2020-12-29T13:43:41+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:43:41+08:00" level=debug msg="redis token: [[85 115 101 114 105 100] [52] [84 111 107 101 110] [97 50 55 57 55 99 53 99 49 49 57 101 52 49 56 51 48 97 52 49 55 51 53 52 101 48 101 48 97 51 102 55] [85 112 100 97 116 101 116 105 109 101] [50 48 50 48 45 49 50 45 50 57 32 49 51 58 52 51 58 52 48 46 48 49 50 48 49 53 57 32 43 48 56 48 48 32 67 83 84]]"
+time="2020-12-29T13:46:03+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:46:11+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-29T13:46:11+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-29T13:46:11+08:00" level=debug msg="登入验证成功"
+time="2020-12-29T13:46:11+08:00" level=debug msg=9e6f7fc26fefb746a2b929a1b883e75b
+time="2020-12-29T13:46:11+08:00" level=debug msg="token 写入db完成"
+time="2020-12-29T13:46:11+08:00" level=debug msg="StructToRedis name: Userid  value: '4'"
+time="2020-12-29T13:46:11+08:00" level=debug msg="StructToRedis name: Token  value: '9e6f7fc26fefb746a2b929a1b883e75b'"
+time="2020-12-29T13:46:11+08:00" level=debug msg="StructToRedis name: Updatetime  value: '2020-12-29 13:46:11.1566422 +0800 CST'"
+time="2020-12-29T13:46:13+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:46:13+08:00" level=debug msg="0 : [85 115 101 114 105 100]"
+time="2020-12-29T13:46:13+08:00" level=debug msg="1 : [52]"
+time="2020-12-29T13:46:13+08:00" level=debug msg="2 : [84 111 107 101 110]"
+time="2020-12-29T13:46:13+08:00" level=debug msg="3 : [57 101 54 102 55 102 99 50 54 102 101 102 98 55 52 54 97 50 98 57 50 57 97 49 98 56 56 51 101 55 53 98]"
+time="2020-12-29T13:46:13+08:00" level=debug msg="4 : [85 112 100 97 116 101 116 105 109 101]"
+time="2020-12-29T13:46:13+08:00" level=debug msg="5 : [50 48 50 48 45 49 50 45 50 57 32 49 51 58 52 54 58 49 49 46 49 53 54 54 52 50 50 32 43 48 56 48 48 32 67 83 84]"
+time="2020-12-29T13:47:21+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-29T13:47:21+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-29T13:47:21+08:00" level=debug msg="登入验证成功"
+time="2020-12-29T13:47:21+08:00" level=debug msg=c0c187223b85dba3ecfb7d6bf3dc2311
+time="2020-12-29T13:47:21+08:00" level=debug msg="token 写入db完成"
+time="2020-12-29T13:47:21+08:00" level=debug msg="StructToRedis name: Userid  value: '4'"
+time="2020-12-29T13:47:21+08:00" level=debug msg="StructToRedis name: Token  value: 'c0c187223b85dba3ecfb7d6bf3dc2311'"
+time="2020-12-29T13:47:21+08:00" level=debug msg="StructToRedis name: Updatetime  value: '2020-12-29 13:47:21.3718673 +0800 CST'"
+time="2020-12-29T13:47:22+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:47:22+08:00" level=debug msg="0 : [85 115 101 114 105 100]"
+time="2020-12-29T13:47:22+08:00" level=debug msg="1 : [52]"
+time="2020-12-29T13:47:22+08:00" level=debug msg="2 : [84 111 107 101 110]"
+time="2020-12-29T13:47:22+08:00" level=debug msg="3 : [99 48 99 49 56 55 50 50 51 98 56 53 100 98 97 51 101 99 102 98 55 100 54 98 102 51 100 99 50 51 49 49]"
+time="2020-12-29T13:47:22+08:00" level=debug msg="4 : [85 112 100 97 116 101 116 105 109 101]"
+time="2020-12-29T13:47:22+08:00" level=debug msg="5 : [50 48 50 48 45 49 50 45 50 57 32 49 51 58 52 55 58 50 49 46 51 55 49 56 54 55 51 32 43 48 56 48 48 32 67 83 84]"
+time="2020-12-29T13:49:27+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-29T13:49:27+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-29T13:49:27+08:00" level=debug msg="登入验证成功"
+time="2020-12-29T13:49:27+08:00" level=debug msg=647799bdaedf5eebdff0f0b982cee0f1
+time="2020-12-29T13:49:27+08:00" level=debug msg="token 写入db完成"
+time="2020-12-29T13:49:27+08:00" level=debug msg="StructToRedis name: Userid  value: '4'"
+time="2020-12-29T13:49:27+08:00" level=debug msg="StructToRedis name: Token  value: '647799bdaedf5eebdff0f0b982cee0f1'"
+time="2020-12-29T13:49:27+08:00" level=debug msg="StructToRedis name: Updatetime  value: '2020-12-29 13:49:27.5122286 +0800 CST'"
+time="2020-12-29T13:49:30+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:49:30+08:00" level=debug msg=Userid
+time="2020-12-29T13:49:30+08:00" level=debug msg=4
+time="2020-12-29T13:49:30+08:00" level=debug msg=Token
+time="2020-12-29T13:49:30+08:00" level=debug msg=647799bdaedf5eebdff0f0b982cee0f1
+time="2020-12-29T13:49:30+08:00" level=debug msg=Updatetime
+time="2020-12-29T13:49:30+08:00" level=debug msg="2020-12-29 13:49:27.5122286 +0800 CST"
+time="2020-12-29T13:56:11+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-29T13:56:11+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-29T13:56:11+08:00" level=debug msg="登入验证成功"
+time="2020-12-29T13:56:11+08:00" level=debug msg=5659962d946cc0a80b1a32f48c2a69c4
+time="2020-12-29T13:56:12+08:00" level=debug msg="token 写入db完成"
+time="2020-12-29T13:56:12+08:00" level=debug msg="StructToRedis name: Userid  value: '4'"
+time="2020-12-29T13:56:12+08:00" level=debug msg="StructToRedis name: Token  value: '5659962d946cc0a80b1a32f48c2a69c4'"
+time="2020-12-29T13:56:12+08:00" level=debug msg="StructToRedis name: Updatetime  value: '2020-12-29 13:56:11.9328472 +0800 CST'"
+time="2020-12-29T13:56:13+08:00" level=debug msg="&{Userid:4 Token:123}"
+time="2020-12-29T13:56:13+08:00" level=debug msg=Userid
+time="2020-12-29T13:56:13+08:00" level=debug msg=4
+time="2020-12-29T13:56:13+08:00" level=debug msg=Token
+time="2020-12-29T13:56:13+08:00" level=debug msg=5659962d946cc0a80b1a32f48c2a69c4
+time="2020-12-29T13:56:13+08:00" level=debug msg=Updatetime
+time="2020-12-29T13:56:13+08:00" level=debug msg="2020-12-29 13:56:11.9328472 +0800 CST"
+time="2020-12-29T13:56:13+08:00" level=debug msg="&{4 5659962d946cc0a80b1a32f48c2a69c4 0001-01-01 00:00:00 +0000 UTC}"

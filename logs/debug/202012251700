@@ -1,0 +1,16 @@
+time="2020-12-25T17:49:45+08:00" level=debug msg="&{Username:test002 Passwd:123}"
+time="2020-12-25T17:49:45+08:00" level=debug msg="&{Userid:6 Username:test002 Passwd:123 Thirdid: Nickname:test002 Nickname2: Createtime:2020-12-25 14:39:43 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T17:49:45+08:00" level=debug msg="验证成功"
+time="2020-12-25T17:49:45+08:00" level=debug msg=6f6a1bf4ec650626f54d7c693af589c3
+time="2020-12-25T17:49:58+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-25T17:49:58+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T17:49:58+08:00" level=debug msg="验证成功"
+time="2020-12-25T17:49:58+08:00" level=debug msg=56e8c967275fd719912840935aebf551
+time="2020-12-25T17:59:25+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-25T17:59:25+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T17:59:25+08:00" level=debug msg="验证成功"
+time="2020-12-25T17:59:25+08:00" level=debug msg=ccfa9f013651de163d7502dbaff31c15
+time="2020-12-25T17:59:58+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-25T17:59:58+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T17:59:58+08:00" level=debug msg="验证成功"
+time="2020-12-25T17:59:58+08:00" level=debug msg=535fefafe6bde90099c856d663d659a7

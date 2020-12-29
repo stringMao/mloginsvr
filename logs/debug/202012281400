@@ -1,0 +1,9 @@
+time="2020-12-28T14:41:59+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-28T14:41:59+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-28T14:41:59+08:00" level=debug msg="验证成功"
+time="2020-12-28T14:41:59+08:00" level=debug msg=7fe02b82617a76571aa07e26ad103f94
+time="2020-12-28T14:42:00+08:00" level=debug msg="token 写入db完成"
+time="2020-12-28T14:42:00+08:00" level=debug msg="222222="
+time="2020-12-28T14:42:00+08:00" level=debug msg="name: Userid  value: '4'"
+time="2020-12-28T14:42:00+08:00" level=debug msg="name: Token  value: '7fe02b82617a76571aa07e26ad103f94'"
+time="2020-12-28T14:42:00+08:00" level=debug msg="name: Updatetime  value: '2020-12-28 14:41:59.8149435 +0800 CST'"

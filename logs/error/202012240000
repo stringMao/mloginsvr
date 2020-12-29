@@ -1,0 +1,2 @@
+time="2020-12-24T10:27:09+08:00" level=fatal msg="mysql connet is err: default addr for network 'mysql:/' unknown"
+time="2020-12-24T10:28:30+08:00" level=fatal msg="mysql connet is err: default addr for network 'mysql:/' unknown"

@@ -1,0 +1,6 @@
+time="2020-12-28T16:46:46+08:00" level=error msg="doerr: ERR wrong number of arguments for 'hmset' command"
+time="2020-12-28T16:48:32+08:00" level=error msg="doerr: ERR wrong number of arguments for 'hmset' command"
+time="2020-12-28T16:51:32+08:00" level=error msg="doerr: ERR wrong number of arguments for 'hmset' command"
+time="2020-12-28T16:53:16+08:00" level=error msg="doerr: ERR wrong number of arguments for 'hmset' command"
+time="2020-12-28T16:54:25+08:00" level=error msg="doerr: ERR wrong number of arguments for 'hmset' command"
+time="2020-12-28T16:55:52+08:00" level=error msg="doerr: ERR wrong number of arguments for 'hmset' command"

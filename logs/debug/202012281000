@@ -1,0 +1,15 @@
+time="2020-12-28T10:23:33+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-28T10:23:33+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-28T10:23:33+08:00" level=debug msg="验证成功"
+time="2020-12-28T10:23:33+08:00" level=debug msg=041712f9a8acee2c320e3ade5099dd3b
+time="2020-12-28T10:23:33+08:00" level=debug msg="token 写入db完成"
+time="2020-12-28T10:33:31+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-28T10:33:31+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-28T10:33:31+08:00" level=debug msg="验证成功"
+time="2020-12-28T10:33:31+08:00" level=debug msg=7388e29153a6dce95b4e6e2e4e905d07
+time="2020-12-28T10:33:32+08:00" level=debug msg="token 写入db完成"
+time="2020-12-28T10:36:26+08:00" level=debug msg="&{Username:test001 Passwd:123}"
+time="2020-12-28T10:36:26+08:00" level=debug msg="&{Userid:4 Username:test001 Passwd:123 Thirdid: Nickname:test001 Nickname2: Createtime:2020-12-25 14:37:28 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-28T10:36:26+08:00" level=debug msg="验证成功"
+time="2020-12-28T10:36:26+08:00" level=debug msg=9cf0f4ed423722d15ae81c4cf102e66a
+time="2020-12-28T10:36:27+08:00" level=debug msg="token 写入db完成"

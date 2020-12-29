@@ -1,0 +1,8 @@
+time="2020-12-25T14:00:30+08:00" level=debug msg="&{Username:test Passwd:test123}"
+time="2020-12-25T14:00:30+08:00" level=debug msg="&{Userid:1 Username:test Password:test123 Thirdid: Nickname:test1 Createtime:2020-12-23 15:16:21 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T14:00:30+08:00" level=debug msg="================================"
+time="2020-12-25T14:21:49+08:00" level=debug msg=true
+time="2020-12-25T14:22:57+08:00" level=debug msg=true
+time="2020-12-25T14:37:28+08:00" level=debug msg=true
+time="2020-12-25T14:38:03+08:00" level=debug msg=false
+time="2020-12-25T14:39:43+08:00" level=debug msg=true

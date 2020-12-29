@@ -1,0 +1,11 @@
+time="2020-12-25T13:56:38+08:00" level=debug msg="&{Username:test Passwd:test123}"
+time="2020-12-25T13:56:38+08:00" level=debug msg=0xc000388068
+time="2020-12-25T13:57:07+08:00" level=debug msg="&{Username:test Passwd:test123}"
+time="2020-12-25T13:57:07+08:00" level=debug msg="&{Userid:1 Username:test Password:test123 Thirdid: Nickname:test1 Createtime:2020-12-23 15:16:21 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T13:57:47+08:00" level=debug msg="&{Username:test Passwd:test123}"
+time="2020-12-25T13:57:47+08:00" level=debug msg="&{Userid:0 Username: Password: Thirdid: Nickname: Createtime:0001-01-01 00:00:00 +0000 UTC Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T13:58:30+08:00" level=debug msg="&{Username:test Passwd:test123}"
+time="2020-12-25T13:58:30+08:00" level=debug msg="&{Userid:0 Username: Password: Thirdid: Nickname: Createtime:0001-01-01 00:00:00 +0000 UTC Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T13:59:28+08:00" level=debug msg="&{Username:test Passwd:test123}"
+time="2020-12-25T13:59:28+08:00" level=debug msg="&{Userid:1 Username:test Password:test123 Thirdid: Nickname:test1 Createtime:2020-12-23 15:16:21 +0800 CST Updatetime:0001-01-01 00:00:00 +0000 UTC Phone: Channelid:0 Status:0}"
+time="2020-12-25T13:59:28+08:00" level=debug msg="================================"
