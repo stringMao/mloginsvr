@@ -1,4 +1,4 @@
-module msigninser
+module mloginsvr
 
 go 1.15
 
@@ -21,5 +21,5 @@ require (
 	github.com/sirupsen/logrus v1.7.0
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/tebeka/strftime v0.1.5 // indirect
-	xorm.io/xorm v1.0.5
+	xorm.io/xorm v1.0.5 // indirect
 )

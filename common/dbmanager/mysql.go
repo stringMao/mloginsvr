@@ -2,8 +2,8 @@ package dbmanager
 
 import (
 	"fmt"
-	"msigninser/common/confmanager"
-	log "msigninser/common/logmanager"
+	"mloginsvr/common/confmanager"
+	log "mloginsvr/common/logmanager"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"

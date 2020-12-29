@@ -1,2 +1,0 @@
-time="2020-12-29T15:35:25+08:00" level=error msg="redis connet is err:dial tcp 127.0.0.1:63797: connectex: No connection could be made because the target machine actively refused it."
-time="2020-12-29T15:38:12+08:00" level=fatal msg="redis connet is err: dial tcp 127.0.0.1:63797: connectex: No connection could be made because the target machine actively refused it."

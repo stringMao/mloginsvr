@@ -1,7 +1,7 @@
 package confmanager
 
 import (
-	log "msigninser/common/logmanager"
+	log "mloginsvr/common/logmanager"
 	"os"
 	"path/filepath"
 

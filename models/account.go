@@ -1,8 +1,8 @@
 package models
 
 import (
-	"msigninser/common/dbmanager"
-	log "msigninser/common/logmanager"
+	"mloginsvr/common/dbmanager"
+	log "mloginsvr/common/logmanager"
 	"time"
 )
 

@@ -1,5 +1,5 @@
-# mSignInServer
-mSignInServer是基于Golang+Gin搭建的登入服务器架构。它意在帮助游戏服务端开发快速的搭建“登入服务器”。
+# mloginsvr
+mloginsvr+Gin搭建的登入服务器架构。它意在帮助游戏服务端开发快速的搭建“登入服务器”。
 
 
 ## 环境

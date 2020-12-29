@@ -5,10 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"msigninser/common/confmanager"
-	log "msigninser/common/logmanager"
-	"msigninser/logic/signin"
-	"msigninser/middle"
+	"mloginsvr/common/confmanager"
+	log "mloginsvr/common/logmanager"
+	"mloginsvr/logic/signin"
+	"mloginsvr/middle"
 )
 
 var router = gin.Default()

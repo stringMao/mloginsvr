@@ -1,12 +1,10 @@
 package main
 
 import (
-	"msigninser/common/dbmanager"
-	log "msigninser/common/logmanager"
-	"msigninser/router"
+	"mloginsvr/common/dbmanager"
+	log "mloginsvr/common/logmanager"
+	"mloginsvr/router"
 )
-
-var n = 0
 
 func main() {
 	log.Logger.Infoln("server start=======================")

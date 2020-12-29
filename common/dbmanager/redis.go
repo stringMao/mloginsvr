@@ -2,8 +2,8 @@ package dbmanager
 
 import (
 	"fmt"
-	"msigninser/common/confmanager"
-	log "msigninser/common/logmanager"
+	"mloginsvr/common/confmanager"
+	log "mloginsvr/common/logmanager"
 
 	"github.com/gomodule/redigo/redis"
 )

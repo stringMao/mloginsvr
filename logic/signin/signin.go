@@ -3,10 +3,10 @@ package signin
 import (
 	"crypto/md5"
 	"fmt"
-	"msigninser/common/dbmanager"
-	log "msigninser/common/logmanager"
-	"msigninser/global"
-	"msigninser/models"
+	"mloginsvr/common/dbmanager"
+	log "mloginsvr/common/logmanager"
+	"mloginsvr/global"
+	"mloginsvr/models"
 	"net/http"
 	"time"
 

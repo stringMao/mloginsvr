@@ -2,7 +2,7 @@ package middle
 
 import (
 	"bytes"
-	"msigninser/common/logmanager"
+	"mloginsvr/common/logmanager"
 
 	"github.com/gin-gonic/gin"
 )
