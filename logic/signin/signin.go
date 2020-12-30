@@ -3,8 +3,8 @@ package signin
 import (
 	"crypto/md5"
 	"fmt"
-	"mloginsvr/common/dbmanager"
-	log "mloginsvr/common/logmanager"
+	"mloginsvr/common/db"
+	"mloginsvr/common/log"
 	"mloginsvr/global"
 	"mloginsvr/models"
 	"net/http"
@@ -67,13 +67,13 @@ func AccountLogin(c *gin.Context) {
 			u.Status = acc.Status
 
 			var str = fmt.Sprintf("token_%d", token.Userid)
-			// dbmanager.GetRedis().Do("SETEX", str, 60, token.Token)
+			// db.GetRedis().Do("SETEX", str, 60, token.Token)
 			args := global.StructToRedis(str, u)
-			_, err := dbmanager.GetRedis().Do("HMSET", args...)
+			_, err := db.GetRedis().Do("HMSET", args...)
 			if err != nil {
 				log.Logger.Errorln("redis write token err:", err)
 			} else {
-				dbmanager.GetRedis().Do("EXPIRE", str, 60)
+				db.GetRedis().Do("EXPIRE", str, 60)
 			}
 			c.JSON(http.StatusOK, global.GetResultSucData(gin.H{"userid": token.Userid, "token": token.Token}))
 			return
@@ -90,6 +90,7 @@ func AccountLogin(c *gin.Context) {
 type askCheckLoginToken struct {
 	Userid int64  `json:"userid"`
 	Token  string `json:"token"`
+	Passwd string `json:"passwd"` //服务器身份认证
 }
 type replyCheckLoginToken struct {
 	Userid    int64  `json:"userid"`
@@ -109,7 +110,7 @@ func CheckLoginToken(c *gin.Context) {
 
 	//先在Redis寻找==================================
 	var str = fmt.Sprintf("token_%d", data.Userid)
-	re, err := redis.Values(dbmanager.GetRedis().Do("HGETALL", str))
+	re, err := redis.Values(db.GetRedis().Do("HGETALL", str))
 	if err == nil && len(re) != 0 {
 		// for _, v := range re {
 		// 	log.Logger.Debugf("%s", v.([]byte))

@@ -5,15 +5,16 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"mloginsvr/common/confmanager"
-	log "mloginsvr/common/logmanager"
+	"mloginsvr/common/config"
+	"mloginsvr/common/log"
 	"mloginsvr/logic/signin"
 	"mloginsvr/middle"
 )
 
 var router = gin.Default()
 
-func init() {
+//Init ..
+func Init() {
 	//账号登入路由组============================================
 	rgLogin := router.Group(strings.ToLower("/mloginsvr"))
 	rgLogin.Use(middle.Respone()) //中间件设置
@@ -22,7 +23,7 @@ func init() {
 
 //Start webapi启动
 func Start() {
-	port, err := confmanager.AppCfg.GetValue("router", "port")
+	port, err := config.AppCfg.GetValue("router", "port")
 	if err != nil {
 		log.Logger.Fatalln("read app.ini of router-port is err:", err)
 	}

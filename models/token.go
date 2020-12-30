@@ -1,8 +1,8 @@
 package models
 
 import (
-	"mloginsvr/common/dbmanager"
-	log "mloginsvr/common/logmanager"
+	"mloginsvr/common/db"
+	"mloginsvr/common/log"
 	"time"
 )
 
@@ -20,7 +20,7 @@ func (*Token) TableName() string {
 
 //GetByUserid ..
 func (t *Token) GetByUserid(id int64) string {
-	has, err := dbmanager.MasterDB.Where("userid=?", id).Get(t)
+	has, err := db.MasterDB.Where("userid=?", id).Get(t)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"has": has,
@@ -34,7 +34,7 @@ func (t *Token) GetByUserid(id int64) string {
 
 //InsertOrUpdate ..
 func (t *Token) InsertOrUpdate() bool {
-	has, err := dbmanager.MasterDB.Where("userid = ?", t.Userid).Exist(&Token{})
+	has, err := db.MasterDB.Where("userid = ?", t.Userid).Exist(&Token{})
 	if err != nil {
 		log.WithFields(log.Fields{
 			"has": has,
@@ -45,7 +45,7 @@ func (t *Token) InsertOrUpdate() bool {
 	}
 	if has {
 		//存在则更新
-		affected, err := dbmanager.MasterDB.Where("userid = ?", t.Userid).Cols("token").Update(t)
+		affected, err := db.MasterDB.Where("userid = ?", t.Userid).Cols("token").Update(t)
 		if err != nil || affected != 1 {
 			log.WithFields(log.Fields{
 				"affected": affected,
@@ -56,7 +56,7 @@ func (t *Token) InsertOrUpdate() bool {
 		}
 	} else {
 		//不存在，则插入
-		affected, err := dbmanager.MasterDB.Insert(t)
+		affected, err := db.MasterDB.Insert(t)
 		if err != nil || affected != 1 {
 			log.WithFields(log.Fields{
 				"affected": affected,

@@ -2,7 +2,7 @@ package middle
 
 import (
 	"bytes"
-	"mloginsvr/common/logmanager"
+	"mloginsvr/common/log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +24,7 @@ func Respone() gin.HandlerFunc {
 		c.Writer = blw
 
 		c.Next()
-		logmanager.Logger.Debug("Response data:", blw.buffer.String())
+		log.Logger.Debug("Response data:", blw.buffer.String())
 		blw.Flush()
 	}
 }

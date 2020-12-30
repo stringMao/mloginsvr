@@ -1,7 +1,7 @@
 package global
 
 import (
-	log "mloginsvr/common/logmanager"
+	"mloginsvr/common/log"
 	"reflect"
 )
 

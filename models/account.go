@@ -1,8 +1,8 @@
 package models
 
 import (
-	"mloginsvr/common/dbmanager"
-	log "mloginsvr/common/logmanager"
+	"mloginsvr/common/db"
+	"mloginsvr/common/log"
 	"time"
 )
 
@@ -40,7 +40,7 @@ func (*Account) TableName() string {
 //GetByUserid ..
 func (a *Account) GetByUserid(id int64) {
 	//temp := new(Account)
-	has, err := dbmanager.MasterDB.Where("userid=?", id).Get(a)
+	has, err := db.MasterDB.Where("userid=?", id).Get(a)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"has":    has,
@@ -54,7 +54,7 @@ func (a *Account) GetByUserid(id int64) {
 //GetByUsername ..
 func (a *Account) GetByUsername(usernaem string) {
 	//temp := new(Account)
-	has, err := dbmanager.MasterDB.Where("username=?", usernaem).Get(a)
+	has, err := db.MasterDB.Where("username=?", usernaem).Get(a)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"has":      has,
@@ -67,7 +67,7 @@ func (a *Account) GetByUsername(usernaem string) {
 
 //Insert 插入一条数据
 func (a *Account) Insert() bool {
-	affected, err := dbmanager.MasterDB.Insert(a)
+	affected, err := db.MasterDB.Insert(a)
 	if err != nil {
 		log.Logger.Errorln("Account [Insert] is err:", err)
 	}
