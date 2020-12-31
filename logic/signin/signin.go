@@ -30,6 +30,7 @@ func AccountLogin(c *gin.Context) {
 	data := &askAccountLogin{}
 	if err := c.BindJSON(&data); err != nil {
 		log.Logger.Errorln("AccountLogin read data err:", err)
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
 		return
 	}
 	log.Logger.Debugf("%+v", data)
@@ -47,7 +48,7 @@ func AccountLogin(c *gin.Context) {
 		token := new(models.Token)
 		token.Userid = acc.Userid
 		//生成token
-		buf := fmt.Sprintf("userid=%d&time=%d&key=%s", acc.Userid, time.Now().Unix(), models.TokenKey)
+		buf := fmt.Sprintf("userid=%d&time=%d&key=%s", acc.Userid, time.Now().Unix(), global.UserTokenKey)
 		token.Token = fmt.Sprintf("%x", md5.Sum([]byte(buf)))
 		log.Logger.Debug(token.Token)
 
@@ -104,6 +105,7 @@ func CheckLoginToken(c *gin.Context) {
 	data := &askCheckLoginToken{}
 	if err := c.BindJSON(&data); err != nil {
 		log.Logger.Errorln("CheckLoginToken read data err:", err)
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
 		return
 	}
 	log.Logger.Debugf("%+v", data)

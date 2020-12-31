@@ -52,14 +52,14 @@ func (a *Account) GetByUserid(id int64) {
 }
 
 //GetByUsername ..
-func (a *Account) GetByUsername(usernaem string) {
+func (a *Account) GetByUsername(username string) {
 	//temp := new(Account)
-	has, err := db.MasterDB.Where("username=?", usernaem).Get(a)
+	has, err := db.MasterDB.Where("username=?", username).Get(a)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"has":      has,
 			"err":      err,
-			"usernaem": usernaem,
+			"username": username,
 		}).Error("Account [GetByUsername] is err")
 	}
 	return
@@ -75,4 +75,31 @@ func (a *Account) Insert() bool {
 		return true
 	}
 	return false
+}
+
+//ExistByUsername 用户名查重
+func (a *Account) ExistByUsername(username string) bool {
+	has, err := db.MasterDB.Where("username = ?", username).Exist(&Account{})
+	if err != nil {
+		log.WithFields(log.Fields{
+			"has":      has,
+			"err":      err,
+			"username": username,
+		}).Error("Account [ExistByUsername] is err")
+	}
+	return has
+}
+
+//UpdateNickname ..
+func (a *Account) UpdateNickname() bool {
+	affected, err := db.MasterDB.Where("userid = ?", a.Userid).Cols("nickname").Update(a)
+	if err != nil || affected != 1 {
+		log.WithFields(log.Fields{
+			"affected": affected,
+			"err":      err,
+			"id":       a.Userid,
+		}).Error("Token.go [UpdateNickname] is err")
+		return false
+	}
+	return true
 }

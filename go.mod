@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/Unknwon/goconfig v0.0.0-20200908083735-df7de6a44db8
+	github.com/aliyun/alibaba-cloud-sdk-go v1.61.819 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/gin-gonic/gin v1.6.3

@@ -5,6 +5,7 @@ import (
 	"mloginsvr/common/config"
 	"mloginsvr/common/db"
 	"mloginsvr/common/log"
+	"mloginsvr/global"
 	"mloginsvr/router"
 	"time"
 )
@@ -17,15 +18,17 @@ func init() {
 func main() {
 	sysinit()
 
-	//路由==
+	//路由====
 	router.Start()
 }
 
 func sysinit() {
-	//1.先开启日志
-	log.Init()
-	//2.读取系统配置app.ini
+	//读取系统配置app.ini
 	config.Init()
+	//开启日志
+	log.Init()
+	//
+	global.Init()
 	//3.db
 	db.InitMysql()
 	db.InitRedis()

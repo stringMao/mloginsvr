@@ -3,6 +3,8 @@ package log
 import (
 	"time"
 
+	"mloginsvr/common/config"
+
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/pkg/errors"
 	"github.com/rifflock/lfshook"
@@ -12,10 +14,24 @@ import (
 //Logger 全局日志对象
 var Logger = logrus.New()
 
-func Init() {
+func init() {
 	//Logger.SetFormatter(&logrus.JSONFormatter{})
 	Logger.AddHook(newLfsHook("logs/"))
-	return
+}
+
+//Init ..
+func Init() {
+	//更新日志设置
+	lv, err := config.AppCfg.GetValue("log", "level")
+	if err != nil {
+		Logger.Fatalln("read app.ini of log-lvevl is err:", err)
+	}
+	logrusLogLevel, err := logrus.ParseLevel(lv)
+	if err != nil {
+		Logger.Fatalln("app.ini of log-lvevl is err:", err)
+	}
+	Logger.SetLevel(logrusLogLevel) //设置等级
+
 }
 
 // 设置日志文件切割及软链接
@@ -81,16 +97,6 @@ func newLfsHook(filepath string) logrus.Hook {
 	}, &logrus.TextFormatter{DisableColors: true})
 
 	return lfsHook
-}
-
-//SetLogLevel 设置日志等级，控制日志输出
-func SetLogLevel(str string) bool {
-	logrusLogLevel, err := logrus.ParseLevel(str)
-	if err != nil {
-		return false
-	}
-	Logger.SetLevel(logrusLogLevel) //设置等级
-	return true
 }
 
 //Fields ..
