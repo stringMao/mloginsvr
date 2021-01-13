@@ -85,12 +85,12 @@ func (a *Account) ExistByUsername(username string) bool {
 			"has":      has,
 			"err":      err,
 			"username": username,
-		}).Error("Account [ExistByUsername] is err")
+		}).Error("account.go [ExistByUsername] is err")
 	}
 	return has
 }
 
-//UpdateNickname ..
+//UpdateNickname 通过userid修改昵称
 func (a *Account) UpdateNickname() bool {
 	affected, err := db.MasterDB.Where("userid = ?", a.Userid).Cols("nickname").Update(a)
 	if err != nil || affected != 1 {
@@ -98,7 +98,21 @@ func (a *Account) UpdateNickname() bool {
 			"affected": affected,
 			"err":      err,
 			"id":       a.Userid,
-		}).Error("Token.go [UpdateNickname] is err")
+		}).Error("account.go [UpdateNickname] is err")
+		return false
+	}
+	return true
+}
+
+//ResetPasswdByUsername 通过用户名重置密码
+func (a *Account) ResetPasswdByUsername() bool {
+	affected, err := db.MasterDB.Where("username = ?", a.Username).Cols("passwd").Update(a)
+	if err != nil || affected != 1 {
+		log.WithFields(log.Fields{
+			"affected": affected,
+			"err":      err,
+			"username": a.Username,
+		}).Error("account.go [ResetPasswdByUsername] is err")
 		return false
 	}
 	return true

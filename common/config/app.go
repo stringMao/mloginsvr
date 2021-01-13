@@ -1,7 +1,7 @@
 package config
 
 import (
-	"log"
+	"mloginsvr/common/log"
 	"os"
 	"path/filepath"
 
@@ -17,10 +17,13 @@ func Init() {
 	dirPath := filepath.Dir(os.Args[0])
 	confPath, err := filepath.Abs(dirPath + "/app.ini")
 	if err != nil {
-		log.Fatalln("[app.ini]文件未找到：", err)
+		log.Logger.Fatal("[app.ini]文件未找到：", err)
 	}
 	AppCfg, err = goconfig.LoadConfigFile(confPath)
 	if err != nil {
-		log.Fatalln("app.ini read err:", err)
+		log.Logger.Fatal("app.ini read err:", err)
 	}
+
+	//敏感词加载
+	LoadSensitiveWords()
 }

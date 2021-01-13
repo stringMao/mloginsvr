@@ -1,8 +1,11 @@
 package signup
 
+/* 注册相关接口 注册，获取验证码，修改密码，修改昵称 */
+
 import (
 	"fmt"
 	"math/rand"
+	"mloginsvr/common/config"
 	"mloginsvr/common/db"
 	"mloginsvr/common/log"
 	"mloginsvr/global"
@@ -22,7 +25,7 @@ type askRegisterAcc struct {
 	Smscode string `json:"smscode"`
 }
 
-//RegisterAccount 注册账号
+//RegisterAccount 注册账号=================================
 func RegisterAccount(c *gin.Context) {
 	data := &askRegisterAcc{}
 	if err := c.BindJSON(&data); err != nil {
@@ -50,8 +53,8 @@ func RegisterAccount(c *gin.Context) {
 		return
 	}
 	//密码格式检查(客户端上传加密后的密码)
-	if data.Passwd == "" {
-		c.JSON(http.StatusOK, global.GetResultData(global.CodeRegiterOfPasswdErr, "密码不能为空", nil))
+	if data.Passwd == "" || len(data.Passwd) != 32 {
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeRegiterOfPasswdErr, "密码不合规", nil))
 		return
 	}
 
@@ -80,12 +83,13 @@ func RegisterAccount(c *gin.Context) {
 }
 
 type askSMS struct {
-	Phone string `json:"phone"`
+	Phone    string `json:"phone"`
+	CodeType int    `json:"codetype"` //申请验证码的业务类型 1注册验证码 2重置密码的验证码
 }
 type replyApplySmsCode struct {
 }
 
-//ApplySMSVerificationCode 申请短息验证码
+//ApplySMSVerificationCode 申请短息验证码===============
 func ApplySMSVerificationCode(c *gin.Context) {
 	data := &askSMS{}
 	if err := c.BindJSON(&data); err != nil {
@@ -100,10 +104,10 @@ func ApplySMSVerificationCode(c *gin.Context) {
 		c.JSON(http.StatusOK, global.GetResultData(global.CodePhoneErr, "请输入正确的手机号", nil))
 		return
 	}
-	str := fmt.Sprintf("smscode_%s", data.Phone)
-	str1 := fmt.Sprintf("smssend_%s", data.Phone)
+	str := fmt.Sprintf("smscode_%d_%s", data.CodeType, data.Phone)
+	strlock := fmt.Sprintf("smslock_%s", data.Phone)
 	//检查是否已经发送过了，且还未过期
-	keyexit, _ := redis.Bool(db.GetRedis().Do("EXISTS", str1))
+	keyexit, _ := redis.Bool(db.GetRedis().Do("EXISTS", strlock))
 	if keyexit == true {
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeSMSOften, "短信请求太频繁，请稍后再试", nil))
 		return
@@ -117,12 +121,109 @@ func ApplySMSVerificationCode(c *gin.Context) {
 	if err != nil {
 		log.Logger.Errorln("redis write [smscode] err:", err)
 		return
-	} else {
-		db.GetRedis().Do("SETEX", str1, 60, "短信已发送")
 	}
+	db.GetRedis().Do("SETEX", strlock, 60, "短信已发送")
 
 	//发送短信验证码=====
 	alibaba.SendSms(data.Phone, rndCode)
 
 	c.JSON(http.StatusOK, global.GetResultSucData(nil)) //通知短信已发送
+}
+
+type askModifyNickname struct {
+	Userid      int64  `json:"userid"`
+	Nickname    string `json:"nickname"`
+	ServerToken string `json:"servertoken"` //服务器身份认证
+}
+
+//ModifyNickname 修改昵称=============================
+func ModifyNickname(c *gin.Context) {
+	data := &askModifyNickname{}
+	if err := c.BindJSON(&data); err != nil {
+		log.Logger.Errorln("ModifyNickname read data err:", err)
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
+		return
+	}
+	log.Logger.Debugf("%+v", data)
+
+	//身份认证
+	if data.ServerToken != global.HallToken {
+		log.Logger.Errorln("ModifyNickname server pw is wrong")
+		return
+	}
+	if data.Nickname == "" {
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeNicknameErr, "昵称不能为空", nil))
+		return
+	}
+	if len(data.Nickname) > 12 {
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeNicknameErr, "昵称太长了", nil))
+		return
+	}
+
+	//昵称查重
+	acc := new(models.Account)
+	if acc.ExistByUsername(data.Nickname) {
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeNicknameErr, "昵称已存在", nil))
+		return
+	}
+
+	//昵称敏感词检查
+	if config.HaveSenWords(data.Nickname) {
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeNicknameErr, "昵称不可用", nil))
+		return
+	}
+
+	//完成修改
+	acc.Userid = data.Userid
+	acc.Nickname = data.Nickname
+	if acc.UpdateNickname() {
+		c.JSON(http.StatusOK, global.GetResultSucData(nil))
+		return
+	}
+}
+
+type askResetPasswd struct {
+	Phone     string `json:"phone"`
+	PasswdNew string `json:"passwd"`  //新密码
+	Smscode   string `json:"smscode"` //短信验证码
+}
+
+//LostPasswd 忘记密码(通过手机号验证码重置密码)====================
+func LostPasswd(c *gin.Context) {
+	data := &askResetPasswd{}
+	if err := c.BindJSON(&data); err != nil {
+		log.Logger.Errorln("LostPasswd read data err:", err)
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
+		return
+	}
+	log.Logger.Debugf("%+v", data)
+	//新密码格式检查
+	if data.PasswdNew == "" || len(data.PasswdNew) != 32 {
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeRegiterOfPasswdErr, "密码不合规", nil))
+		return
+	}
+
+	//验证码检查
+	str := fmt.Sprintf("smscode_2_%s", data.Phone)
+	re, err := redis.Strings(db.GetRedis().Do("GET", str))
+	if err != nil || len(re) != 1 {
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeSmsVerifyFail, "验证码不存在", nil))
+		return
+	}
+	if re[0] != data.Smscode {
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeSmsVerifyFail, "验证码错误", nil))
+		return
+	}
+	//修改数据库
+	acc := new(models.Account)
+	acc.Username = data.Phone
+	acc.Passwd = data.PasswdNew
+
+	if !acc.ResetPasswdByUsername() {
+		//修改数据库密码失败
+		c.JSON(http.StatusOK, global.GetResultData(global.CodeDBExecErr, "db异常", nil))
+		return
+	}
+	c.JSON(http.StatusOK, global.GetResultSucData(nil))
+	return
 }

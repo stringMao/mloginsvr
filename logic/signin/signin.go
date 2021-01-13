@@ -110,6 +110,12 @@ func CheckLoginToken(c *gin.Context) {
 	}
 	log.Logger.Debugf("%+v", data)
 
+	//身份认证
+	if data.Passwd != global.HallToken {
+		log.Logger.Errorln("ModifyNickname server pw is wrong")
+		return
+	}
+
 	//先在Redis寻找==================================
 	var str = fmt.Sprintf("token_%d", data.Userid)
 	re, err := redis.Values(db.GetRedis().Do("HGETALL", str))

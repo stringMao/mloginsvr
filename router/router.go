@@ -8,6 +8,7 @@ import (
 	"mloginsvr/common/config"
 	"mloginsvr/common/log"
 	"mloginsvr/logic/signin"
+	"mloginsvr/logic/signup"
 	"mloginsvr/middle"
 )
 
@@ -15,10 +16,19 @@ var router = gin.Default()
 
 //Init ..
 func Init() {
-	//账号登入路由组============================================
-	rgLogin := router.Group(strings.ToLower("/mloginsvr"))
-	rgLogin.Use(middle.Respone()) //中间件设置
-	registerLoginRouter(rgLogin)
+	//路由分组
+	//大厅服务器路由
+	svrRG := router.Group(strings.ToLower("/mloginsvr/hall"))
+	svrRG.Use(middle.Respone(), middle.Authentication()) //中间件设置
+	svrRGRouter(svrRG)
+
+	//客户端路由
+	clientRG := router.Group(strings.ToLower("/mloginsvr/client"))
+	clientRG.Use(middle.Respone()) //中间件设置
+	clientRGRouter(svrRG)
+
+	//管理员路由
+
 }
 
 //Start webapi启动
@@ -36,8 +46,23 @@ func Start() {
 	//router.RunTLS(conf.JSONConf.Port, crtPath, keyPath)
 }
 
-//registerLoginRouter 账号登入及token验证等相关路由
-func registerLoginRouter(group *gin.RouterGroup) {
-	group.POST(strings.ToLower("/signin"), signin.AccountLogin)
+//svrRGRouter 大厅服务器访问接口
+func svrRGRouter(group *gin.RouterGroup) {
+	//登入token验证
 	group.POST(strings.ToLower("/checktoken"), signin.CheckLoginToken)
+	//修改昵称
+	group.POST(strings.ToLower("/modifynickname"), signup.ModifyNickname)
+}
+
+//registerLoginRouter 账号登入及token验证等相关路由
+func clientRGRouter(group *gin.RouterGroup) {
+	//客户端账号登入
+	group.POST(strings.ToLower("/signin"), signin.AccountLogin)
+	//账号注册
+	group.POST(strings.ToLower("/signup"), signup.RegisterAccount)
+	//请求短信验证码
+	group.POST(strings.ToLower("/applysms"), signup.ApplySMSVerificationCode)
+	//忘记密码重置密码
+	group.POST(strings.ToLower("/resetpasswd"), signup.LostPasswd)
+
 }

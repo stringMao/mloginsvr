@@ -3,8 +3,6 @@ package log
 import (
 	"time"
 
-	"mloginsvr/common/config"
-
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/pkg/errors"
 	"github.com/rifflock/lfshook"
@@ -20,18 +18,13 @@ func init() {
 }
 
 //Init ..
-func Init() {
+func Init(lv string) {
 	//更新日志设置
-	lv, err := config.AppCfg.GetValue("log", "level")
-	if err != nil {
-		Logger.Fatalln("read app.ini of log-lvevl is err:", err)
-	}
 	logrusLogLevel, err := logrus.ParseLevel(lv)
 	if err != nil {
 		Logger.Fatalln("app.ini of log-lvevl is err:", err)
 	}
 	Logger.SetLevel(logrusLogLevel) //设置等级
-
 }
 
 // 设置日志文件切割及软链接
