@@ -8,6 +8,8 @@ const (
 	CodeProtoErr = 1
 	//CodeDBExecErr 数据库执行出错
 	CodeDBExecErr = 2
+	//CodeSignErr 签名错误
+	CodeSignErr = 3
 	//CodeSvrIdeErr 服务器身份认证失败
 	CodeSvrIdeErr = 100
 

@@ -10,7 +10,6 @@ import (
 	"mloginsvr/common/log"
 	"mloginsvr/global"
 	"mloginsvr/models"
-	"mloginsvr/sdk/alibaba"
 	"net/http"
 	"time"
 
@@ -28,7 +27,7 @@ type askRegisterAcc struct {
 //RegisterAccount 注册账号=================================
 func RegisterAccount(c *gin.Context) {
 	data := &askRegisterAcc{}
-	if err := c.BindJSON(&data); err != nil {
+	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("RegisterAccount read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
 		return
@@ -42,13 +41,14 @@ func RegisterAccount(c *gin.Context) {
 	}
 
 	//验证码检查
-	str := fmt.Sprintf("smscode_%s", data.Phone)
-	re, err := redis.Strings(db.GetRedis().Do("GET", str))
-	if err != nil || len(re) != 1 {
+	str := fmt.Sprintf("smscode_1_%s", data.Phone)
+	re, err := redis.String(db.GetRedis().Do("GET", str))
+	if err != nil {
+		log.Logger.Debug(err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeSmsVerifyFail, "验证码不存在", nil))
 		return
 	}
-	if re[0] != data.Smscode {
+	if re != data.Smscode {
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeSmsVerifyFail, "验证码错误", nil))
 		return
 	}
@@ -71,7 +71,7 @@ func RegisterAccount(c *gin.Context) {
 	acc.Passwd = data.Passwd
 	acc.Nickname = "游客"
 	acc.Createtime = time.Now()
-	acc.Channelid = 0
+	acc.Accounttype = 0 //账号用户
 	acc.Status = 0
 	acc.Phone = data.Phone
 	if acc.Insert() {
@@ -92,7 +92,7 @@ type replyApplySmsCode struct {
 //ApplySMSVerificationCode 申请短息验证码===============
 func ApplySMSVerificationCode(c *gin.Context) {
 	data := &askSMS{}
-	if err := c.BindJSON(&data); err != nil {
+	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("ApplySMSVerificationCode read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
 		return
@@ -115,6 +115,7 @@ func ApplySMSVerificationCode(c *gin.Context) {
 
 	//获取随机验证码
 	rndCode := fmt.Sprintf("%06v", rand.Int31n(1000000))
+	log.Logger.Debug("验证码：", rndCode)
 
 	//验证码保存到redis
 	_, err := db.GetRedis().Do("SETEX", str, 5*60, rndCode)
@@ -125,7 +126,7 @@ func ApplySMSVerificationCode(c *gin.Context) {
 	db.GetRedis().Do("SETEX", strlock, 60, "短信已发送")
 
 	//发送短信验证码=====
-	alibaba.SendSms(data.Phone, rndCode)
+	//alibaba.SendSms(data.Phone, rndCode)
 
 	c.JSON(http.StatusOK, global.GetResultSucData(nil)) //通知短信已发送
 }
@@ -133,24 +134,19 @@ func ApplySMSVerificationCode(c *gin.Context) {
 type askModifyNickname struct {
 	Userid      int64  `json:"userid"`
 	Nickname    string `json:"nickname"`
-	ServerToken string `json:"servertoken"` //服务器身份认证
+	ServerToken string `json:"servertoken" binding:"required"` //服务器身份认证
 }
 
 //ModifyNickname 修改昵称=============================
 func ModifyNickname(c *gin.Context) {
 	data := &askModifyNickname{}
-	if err := c.BindJSON(&data); err != nil {
+	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("ModifyNickname read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
 		return
 	}
 	log.Logger.Debugf("%+v", data)
 
-	//身份认证
-	if data.ServerToken != global.HallToken {
-		log.Logger.Errorln("ModifyNickname server pw is wrong")
-		return
-	}
 	if data.Nickname == "" {
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeNicknameErr, "昵称不能为空", nil))
 		return
@@ -191,7 +187,7 @@ type askResetPasswd struct {
 //LostPasswd 忘记密码(通过手机号验证码重置密码)====================
 func LostPasswd(c *gin.Context) {
 	data := &askResetPasswd{}
-	if err := c.BindJSON(&data); err != nil {
+	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("LostPasswd read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
 		return
@@ -205,12 +201,12 @@ func LostPasswd(c *gin.Context) {
 
 	//验证码检查
 	str := fmt.Sprintf("smscode_2_%s", data.Phone)
-	re, err := redis.Strings(db.GetRedis().Do("GET", str))
-	if err != nil || len(re) != 1 {
+	re, err := redis.String(db.GetRedis().Do("GET", str))
+	if err != nil {
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeSmsVerifyFail, "验证码不存在", nil))
 		return
 	}
-	if re[0] != data.Smscode {
+	if re != data.Smscode {
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeSmsVerifyFail, "验证码错误", nil))
 		return
 	}

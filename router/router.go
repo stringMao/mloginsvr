@@ -7,6 +7,7 @@ import (
 
 	"mloginsvr/common/config"
 	"mloginsvr/common/log"
+	"mloginsvr/global"
 	"mloginsvr/logic/signin"
 	"mloginsvr/logic/signup"
 	"mloginsvr/middle"
@@ -19,13 +20,13 @@ func Init() {
 	//路由分组
 	//大厅服务器路由
 	svrRG := router.Group(strings.ToLower("/mloginsvr/hall"))
-	svrRG.Use(middle.Respone(), middle.Authentication()) //中间件设置
+	svrRG.Use(middle.Respone(), middle.AuthCheckSign(global.HallSignKey), middle.Authentication()) //中间件设置
 	svrRGRouter(svrRG)
 
 	//客户端路由
 	clientRG := router.Group(strings.ToLower("/mloginsvr/client"))
-	clientRG.Use(middle.Respone()) //中间件设置
-	clientRGRouter(svrRG)
+	clientRG.Use(middle.Respone(), middle.AuthCheckSign(global.ClientSignKey)) //中间件设置
+	clientRGRouter(clientRG)
 
 	//管理员路由
 

@@ -1,2 +1,0 @@
-time="2021-01-12T15:05:53+08:00" level=fatal msg="读取文件[\"色情类.txt]失败:&os.PathError{Op:\"open\", Path:\"F:\\\\我的项目\\\\mloginsvr\\\\src\\\\words\\\\\\\"色情类.txt\", Err:0x7b}"
-time="2021-01-12T15:09:21+08:00" level=fatal msg="读取文件[暴力.txt]失败:&os.PathError{Op:\"open\", Path:\"F:\\\\我的项目\\\\mloginsvr\\\\src\\\\words\\\\暴力.txt\", Err:0x2}"
