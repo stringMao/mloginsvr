@@ -8,6 +8,7 @@ import (
 	"mloginsvr/common/config"
 	"mloginsvr/common/log"
 	"mloginsvr/global"
+	"mloginsvr/logic/realname"
 	"mloginsvr/logic/signin"
 	"mloginsvr/logic/signup"
 	"mloginsvr/middle"
@@ -47,15 +48,17 @@ func Start() {
 	//router.RunTLS(conf.JSONConf.Port, crtPath, keyPath)
 }
 
-//svrRGRouter 大厅服务器访问接口
+//svrRGRouter 大厅服务器访问接口(需要身份认证)
 func svrRGRouter(group *gin.RouterGroup) {
 	//登入token验证
 	group.POST(strings.ToLower("/checktoken"), signin.CheckLoginToken)
 	//修改昵称
 	group.POST(strings.ToLower("/modifynickname"), signup.ModifyNickname)
+	//实名认证
+	group.POST(strings.ToLower("/realnameverify"), realname.RealNameVerify)
 }
 
-//registerLoginRouter 账号登入及token验证等相关路由
+//clientRGRouter 客户端请求接口
 func clientRGRouter(group *gin.RouterGroup) {
 	//客户端账号登入
 	group.POST(strings.ToLower("/signin"), signin.AccountLogin)

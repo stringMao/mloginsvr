@@ -32,7 +32,7 @@ func (t *Token) GetByUserid(id int64) string {
 	return t.Token
 }
 
-//InsertOrUpdate ..
+//InsertOrUpdate 更新或插入token
 func (t *Token) InsertOrUpdate() bool {
 	has, err := db.MasterDB.Where("userid = ?", t.Userid).Exist(&Token{})
 	if err != nil {

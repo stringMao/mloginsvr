@@ -33,4 +33,8 @@ const (
 	CodeRegiterOfPasswdErr = 514
 	//CodeNicknameErr 修改的昵称有问题
 	CodeNicknameErr = 515
+
+	//实名认证相关==========================
+	//CodeIdentityNumErr 身份证号格式错误
+	CodeIdentityNumErr = 530
 )

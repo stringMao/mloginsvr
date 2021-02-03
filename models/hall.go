@@ -12,7 +12,6 @@ type Hall struct {
 	Address    string
 	Channel    int
 	Status     int
-	Playcount  int
 }
 
 //TableName ..
@@ -27,7 +26,7 @@ func LoadServerInfo() []Hall {
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err": err,
-		}).Error("Hall [LoadServerInfo] is err")
+		}).Fatal("Hall [LoadServerInfo] is err")
 	}
 	return halls
 }

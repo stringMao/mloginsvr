@@ -18,9 +18,12 @@ import (
 
 //redis 储存的用户信息
 type userinfo struct {
-	Token       string
-	Nickname    string
-	Accounttype int
+	Token            string
+	Nickname         string
+	Accounttype      int
+	CompleteRealname bool //是否完成实名认证
+	Gender           int  //0男 1女
+	Age              int  //年龄
 }
 type hallSvrverInfo struct {
 	Address string
@@ -29,9 +32,9 @@ type hallSvrverInfo struct {
 
 //askAccountLogin 客户端账号登入的请求信息
 type askAccountLogin struct {
-	Username string `json:"username"  binding:"required"`
-	Passwd   string `json:"passwd"  binding:"required"`
-	Channel  int    `json:"channel"  binding:"required"` //位运算 (001)1安卓机  (010)2IOS机  (100)4PC机
+	Username string `json:"username" binding:"required,min=5"`
+	Passwd   string `json:"passwd" binding:"required,min=1"`
+	Channel  int    `json:"channel" binding:"required"` //位运算 (001)1安卓机  (010)2IOS机  (100)4PC机
 }
 
 //replyAccLogin 用户账号登入成功后的返回信息
@@ -43,7 +46,7 @@ type replyAccLogin struct {
 
 //AccountLogin 账号密码登入
 func AccountLogin(c *gin.Context) {
-	data := &askAccountLogin{}
+	var data askAccountLogin
 	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("AccountLogin read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
@@ -76,41 +79,49 @@ func AccountLogin(c *gin.Context) {
 		token.Token = fmt.Sprintf("%x", md5.Sum([]byte(buf)))
 		log.Logger.Debug("create token:" + token.Token)
 
-		if token.InsertOrUpdate() {
-			log.Logger.Debugln("token 写入db完成")
-
-			//token放进redis====================================
-			u := userinfo{}
-			u.Token = token.Token
-			u.Nickname = acc.Nickname
-			u.Accounttype = acc.Accounttype
-			//u.Status = acc.Status
-
-			var str = fmt.Sprintf("token_%d", token.Userid)
-			// db.GetRedis().Do("SETEX", str, 60, token.Token)
-			args := global.StructToRedis(str, u)
-			_, err := db.GetRedis().Do("HMSET", args...)
-			if err != nil {
-				log.Logger.Errorln("redis write token err:", err)
-			} else {
-				db.GetRedis().Do("EXPIRE", str, 60)
-			}
-
-			var reply replyAccLogin
-			reply.Userid = token.Userid
-			reply.Token = token.Token
-			//渠道分发及负载均衡策略-下发大厅服务器ip+端口
-			for _, v := range global.HallList {
-				if (data.Channel & v.Channel) > 0 {
-					reply.Svrlist = append(reply.Svrlist, hallSvrverInfo{v.Address, v.Servername})
-				}
-			}
-
-			c.JSON(http.StatusOK, global.GetResultSucData(reply))
+		if !token.InsertOrUpdate() {
+			c.JSON(http.StatusOK, global.GetResultData(global.CodeLoginFail, "db error", nil))
 			return
 		}
-		c.JSON(http.StatusOK, global.GetResultData(global.CodeLoginFail, "db error", nil))
+		log.Logger.Debugln("token 写入db完成")
+
+		//token放进redis====================================
+		u := userinfo{Gender: 0, CompleteRealname: false, Age: 0}
+		u.Token = token.Token
+		u.Nickname = acc.Nickname
+		u.Accounttype = acc.Accounttype
+		//u.Indentity = acc.Identity
+		//获得实名信息
+		var userinfo models.UserRealInfo
+		if userinfo.GetByUserid(acc.Userid) {
+			u.CompleteRealname = true
+			u.Gender = userinfo.Gender
+			u.Age = global.GetCitizenAge([]byte(userinfo.Identity), false)
+		}
+
+		var key = fmt.Sprintf("token_%d", token.Userid)
+		if val, err := json.Marshal(u); err == nil {
+			db.GetRedis().Do("SET", key, string(val), "EX", 60)
+		}
+
+		// args := global.StructToRedis(str, u)
+		// _, err := db.GetRedis().Do("HMSET", args...)
+		// if err != nil {
+		// 	log.Logger.Errorln("redis write token err:", err)
+		// } else {
+		// 	db.GetRedis().Do("EXPIRE", str, 60*30)
+		// }
+		//===========================================================
+
+		var reply replyAccLogin
+		reply.Userid = token.Userid
+		reply.Token = token.Token
+		//渠道分发及负载均衡策略-下发大厅服务器ip+端口
+		reply.Svrlist = hallLoadBalanced(data.Channel)
+
+		c.JSON(http.StatusOK, global.GetResultSucData(reply))
 		return
+
 	}
 
 	c.JSON(http.StatusOK, global.GetResultData(global.CodeLoginFail, "密码错误", nil))
@@ -118,19 +129,21 @@ func AccountLogin(c *gin.Context) {
 }
 
 type askCheckLoginToken struct {
-	Userid int64  `json:"userid"`
-	Token  string `json:"token"`
-	Passwd string `json:"passwd"` //服务器身份认证
+	Userid int64  `json:"userid" binding:"required"`
+	Token  string `json:"token" binding:"required"`
 }
 type replyCheckLoginToken struct {
-	Userid      int64  `json:"userid"`
-	Nickname    string `json:"nickname"`
-	Accounttype int    `json:"accounttype"`
+	Userid           int64  `json:"userid"`
+	Nickname         string `json:"nickname"`
+	Accounttype      int    `json:"accounttype"`
+	Gender           int    `json:"gender"`
+	CompleteRealname bool   `json:"completerealname"` //是否完成实名认证
+	Age              int    `json:"age"`              //是否成年
 }
 
 //CheckLoginToken 验证登入token
 func CheckLoginToken(c *gin.Context) {
-	data := &askCheckLoginToken{}
+	var data askCheckLoginToken
 	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("CheckLoginToken read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
@@ -140,9 +153,9 @@ func CheckLoginToken(c *gin.Context) {
 
 	//先在Redis寻找==================================
 	var str = fmt.Sprintf("token_%d", data.Userid)
-	if re, err := redis.String(db.GetRedis().Do("HGETALL", str)); err == nil {
-		u := new(userinfo)
-		if err2 := json.Unmarshal([]byte(re), u); err2 == nil {
+	if re, err := redis.String(db.GetRedis().Do("GET", str)); err == nil {
+		var u userinfo
+		if json.Unmarshal([]byte(re), &u) == nil {
 			//redis.ScanStruct(re, u)
 			log.Logger.Debugf("%+v", u)
 			if u.Token == data.Token {
@@ -151,6 +164,9 @@ func CheckLoginToken(c *gin.Context) {
 				reply.Userid = data.Userid
 				reply.Nickname = u.Nickname
 				reply.Accounttype = u.Accounttype
+				reply.Gender = u.Gender
+				reply.CompleteRealname = u.CompleteRealname
+				reply.Age = u.Age
 				c.JSON(http.StatusOK, global.GetResultSucData(reply))
 				return
 			}
@@ -164,13 +180,23 @@ func CheckLoginToken(c *gin.Context) {
 	token := new(models.Token)
 	token.GetByUserid(data.Userid)
 	if token.Token == data.Token {
-		acc := new(models.Account)
+		//acc := new(models.Account)
+		var acc models.Account
 		acc.GetByUserid(data.Userid)
+
 		//验证通过
-		var reply replyCheckLoginToken
+		reply := replyCheckLoginToken{Gender: 0, CompleteRealname: false, Age: 0}
 		reply.Userid = data.Userid
 		reply.Nickname = acc.Nickname
 		reply.Accounttype = acc.Accounttype
+
+		var info models.UserRealInfo
+		if info.GetByUserid(data.Userid) {
+			reply.Gender = info.Gender
+			reply.CompleteRealname = true
+			reply.Age = global.GetCitizenAge([]byte(info.Identity), false)
+		}
+
 		c.JSON(http.StatusOK, global.GetResultSucData(reply))
 		return
 	}
@@ -178,4 +204,21 @@ func CheckLoginToken(c *gin.Context) {
 	c.JSON(http.StatusOK, global.GetResultData(global.CodeCheckTokenFail, "token 错误", nil))
 	return
 
+}
+
+//hallLoadBalanced 大厅渠道分发及负载策略
+func hallLoadBalanced(channel int) []hallSvrverInfo {
+	var result []hallSvrverInfo
+	//渠道分发
+	for _, v := range global.HallList {
+		if (channel&v.Channel) > 0 && v.Status == 0 {
+			result = append(result, hallSvrverInfo{v.Address, v.Servername})
+		}
+	}
+	// 负载均衡
+	// if len(result) > 1 {
+
+	// }
+
+	return result
 }

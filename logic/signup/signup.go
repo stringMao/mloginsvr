@@ -18,15 +18,15 @@ import (
 )
 
 type askRegisterAcc struct {
-	Phone  string `json:"phone"` //手机号作为账号名
-	Passwd string `json:"passwd"`
+	Phone  string `json:"phone" binding:"required"` //手机号作为账号名
+	Passwd string `json:"passwd" binding:"required,min=1"`
 	//Nickname string `json:"nickname"`
-	Smscode string `json:"smscode"`
+	Smscode string `json:"smscode" binding:"required"`
 }
 
 //RegisterAccount 注册账号=================================
 func RegisterAccount(c *gin.Context) {
-	data := &askRegisterAcc{}
+	var data askRegisterAcc
 	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("RegisterAccount read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
@@ -83,15 +83,15 @@ func RegisterAccount(c *gin.Context) {
 }
 
 type askSMS struct {
-	Phone    string `json:"phone"`
-	CodeType int    `json:"codetype"` //申请验证码的业务类型 1注册验证码 2重置密码的验证码
+	Phone    string `json:"phone" binding:"required"`
+	CodeType int    `json:"codetype" binding:"required"` //申请验证码的业务类型 1注册验证码 2重置密码的验证码
 }
 type replyApplySmsCode struct {
 }
 
 //ApplySMSVerificationCode 申请短息验证码===============
 func ApplySMSVerificationCode(c *gin.Context) {
-	data := &askSMS{}
+	var data askSMS
 	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("ApplySMSVerificationCode read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
@@ -132,14 +132,13 @@ func ApplySMSVerificationCode(c *gin.Context) {
 }
 
 type askModifyNickname struct {
-	Userid      int64  `json:"userid"`
-	Nickname    string `json:"nickname"`
-	ServerToken string `json:"servertoken" binding:"required"` //服务器身份认证
+	Userid   int64  `json:"userid" binding:"required"`
+	Nickname string `json:"nickname" binding:"required"`
 }
 
 //ModifyNickname 修改昵称=============================
 func ModifyNickname(c *gin.Context) {
-	data := &askModifyNickname{}
+	var data askModifyNickname
 	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("ModifyNickname read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))
@@ -179,14 +178,14 @@ func ModifyNickname(c *gin.Context) {
 }
 
 type askResetPasswd struct {
-	Phone     string `json:"phone"`
-	PasswdNew string `json:"passwd"`  //新密码
-	Smscode   string `json:"smscode"` //短信验证码
+	Phone     string `json:"phone" binding:"required"`
+	PasswdNew string `json:"passwd" binding:"required"`  //新密码
+	Smscode   string `json:"smscode" binding:"required"` //短信验证码
 }
 
 //LostPasswd 忘记密码(通过手机号验证码重置密码)====================
 func LostPasswd(c *gin.Context) {
-	data := &askResetPasswd{}
+	var data askResetPasswd
 	if err := c.ShouldBindJSON(&data); err != nil {
 		log.Logger.Errorln("LostPasswd read data err:", err)
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeProtoErr, "协议解析错误", nil))

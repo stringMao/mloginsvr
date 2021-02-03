@@ -8,16 +8,16 @@ import (
 
 //Account 用户信息表
 type Account struct {
-	Userid        int64  `xorm:"pk autoincr notnull"`
-	Username      string `xorm:"unique notnull"`
-	Passwd        string
-	Thirdid       string
-	Nickname      string
-	Createtime    time.Time
-	Lastlogintime time.Time //最近登入时间
-	Phone         string
-	Accounttype   int //账号类型  0注册账户 1微信登入  2
-	Status        int
+	Userid      int64  `xorm:"pk autoincr notnull"`
+	Username    string `xorm:"unique notnull"`
+	Passwd      string
+	Thirdid     string
+	Nickname    string
+	Createtime  time.Time
+	Logintime   time.Time //最近登入时间
+	Phone       string
+	Accounttype int //账号类型  0注册账户 1微信登入  2
+	Status      int
 }
 
 //TableName ..
