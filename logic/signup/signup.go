@@ -71,7 +71,7 @@ func RegisterAccount(c *gin.Context) {
 	acc.Passwd = data.Passwd
 	acc.Nickname = "游客"
 	acc.Createtime = time.Now()
-	acc.Accounttype = 0 //账号用户
+	acc.Accounttype = global.AccTypeCommon //账号用户
 	acc.Status = 0
 	acc.Phone = data.Phone
 	if acc.Insert() {

@@ -1,6 +1,8 @@
 package global
 
 import (
+	"crypto/md5"
+	"fmt"
 	"mloginsvr/common/log"
 	"reflect"
 	"regexp"
@@ -27,6 +29,12 @@ func VerifyMobileFormat(mobileNum string) bool {
 	regular := "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$"
 	reg := regexp.MustCompile(regular)
 	return reg.MatchString(mobileNum)
+}
+
+//GetLoginToken 计算一个新的token
+func GetLoginToken(userid int64) string {
+	buf := fmt.Sprintf("userid=%d&time=%d&key=%s", userid, time.Now().Unix(), LoginTokenKey)
+	return fmt.Sprintf("%x", md5.Sum([]byte(buf)))
 }
 
 //==身份证号相关函数========================================================================================
@@ -229,3 +237,5 @@ func GetCitizenGender(citizenNo []byte, isvalid bool) int {
 	//sex = "男"
 	return 0
 }
+
+//================================================================================================

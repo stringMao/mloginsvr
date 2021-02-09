@@ -1,7 +1,6 @@
 package signin
 
 import (
-	"crypto/md5"
 	"encoding/json"
 	"fmt"
 	"mloginsvr/common/db"
@@ -10,21 +9,11 @@ import (
 	"mloginsvr/models"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gomodule/redigo/redis"
 )
 
-//redis 储存的用户信息
-type userinfo struct {
-	Token            string
-	Nickname         string
-	Accounttype      int
-	CompleteRealname bool //是否完成实名认证
-	Gender           int  //0男 1女
-	Age              int  //年龄
-}
 type hallSvrverInfo struct {
 	Address string
 	Svrname string
@@ -55,9 +44,7 @@ func AccountLogin(c *gin.Context) {
 	log.Logger.Debugf("%+v", data)
 
 	acc := new(models.Account)
-	acc.GetByUsername(data.Username)
-	log.Logger.Debugf("%+v", acc)
-	if acc.Username == "" {
+	if !acc.GetByUsername(data.Username) {
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeLoginFail, "账号不存在", nil))
 		return
 	}
@@ -75,8 +62,7 @@ func AccountLogin(c *gin.Context) {
 		token := new(models.Token)
 		token.Userid = acc.Userid
 		//生成token
-		buf := fmt.Sprintf("userid=%d&time=%d&key=%s", acc.Userid, time.Now().Unix(), global.LoginTokenKey)
-		token.Token = fmt.Sprintf("%x", md5.Sum([]byte(buf)))
+		token.Token = global.GetLoginToken(acc.Userid)
 		log.Logger.Debug("create token:" + token.Token)
 
 		if !token.InsertOrUpdate() {
@@ -86,7 +72,7 @@ func AccountLogin(c *gin.Context) {
 		log.Logger.Debugln("token 写入db完成")
 
 		//token放进redis====================================
-		u := userinfo{Gender: 0, CompleteRealname: false, Age: 0}
+		u := global.RedisUserInfo{Gender: 0, CompleteRealname: false, Age: 0}
 		u.Token = token.Token
 		u.Nickname = acc.Nickname
 		u.Accounttype = acc.Accounttype
@@ -154,7 +140,7 @@ func CheckLoginToken(c *gin.Context) {
 	//先在Redis寻找==================================
 	var str = fmt.Sprintf("token_%d", data.Userid)
 	if re, err := redis.String(db.GetRedis().Do("GET", str)); err == nil {
-		var u userinfo
+		var u global.RedisUserInfo
 		if json.Unmarshal([]byte(re), &u) == nil {
 			//redis.ScanStruct(re, u)
 			log.Logger.Debugf("%+v", u)

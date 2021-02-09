@@ -51,7 +51,7 @@ func (a *Account) GetByUserid(id int64) {
 }
 
 //GetByUsername ..
-func (a *Account) GetByUsername(username string) {
+func (a *Account) GetByUsername(username string) bool {
 	//temp := new(Account)
 	has, err := db.MasterDB.Where("username=?", username).Get(a)
 	if err != nil {
@@ -61,7 +61,7 @@ func (a *Account) GetByUsername(username string) {
 			"username": username,
 		}).Error("Account [GetByUsername] is err")
 	}
-	return
+	return has
 }
 
 //Insert 插入一条数据

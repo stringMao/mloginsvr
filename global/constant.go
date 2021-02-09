@@ -17,3 +17,11 @@ const TestSign = "test"
 
 //LoginTokenKey 生成用户登入token的key
 const LoginTokenKey = "default"
+
+//=账号类型======================================
+
+//AccTypeCommon 普通注册账号
+const AccTypeCommon = 0
+
+//AccTypeWechat 微信账号
+const AccTypeWechat = 1
