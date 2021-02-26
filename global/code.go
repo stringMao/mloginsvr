@@ -10,6 +10,8 @@ const (
 	CodeDBExecErr = 2
 	//CodeSignErr 签名错误
 	CodeSignErr = 3
+	//CodeAskFail 请求失败，一般与客户端无关
+	CodeAskFail = 4
 	//CodeSvrIdeErr 服务器身份认证失败
 	CodeSvrIdeErr = 100
 
@@ -37,4 +39,11 @@ const (
 	//实名认证相关==========================
 	//CodeIdentityNumErr 身份证号格式错误
 	CodeIdentityNumErr = 530
+
+	//==第三方登入============================
+	//==微信===
+	//CodeWechatLoginCodeErr  由于code错误导致获取access_token 失败
+	CodeWechatLoginCodeErr = 550
+	//CodeWechatAccessTokenErr 用户的access_token已经无效，请重新code登入
+	CodeWechatAccessTokenErr = 551
 )

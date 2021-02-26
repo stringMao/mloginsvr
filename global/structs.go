@@ -9,3 +9,14 @@ type RedisUserInfo struct {
 	Gender           int  //0男 1女
 	Age              int  //年龄
 }
+
+type RedisWeChatAccessToken struct {
+	Userid      int64
+	AccessToken string
+}
+
+//HallSvrverInfo 大厅服务器信息结构
+type HallSvrverInfo struct {
+	Address string
+	Svrname string
+}

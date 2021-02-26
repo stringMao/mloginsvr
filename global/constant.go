@@ -25,3 +25,6 @@ const AccTypeCommon = 0
 
 //AccTypeWechat 微信账号
 const AccTypeWechat = 1
+
+//TokenActiveTime 登入token有效时间（秒）
+const TokenActiveTime = 60 * 60 * 2

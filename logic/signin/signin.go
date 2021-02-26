@@ -6,6 +6,7 @@ import (
 	"mloginsvr/common/db"
 	"mloginsvr/common/log"
 	"mloginsvr/global"
+	"mloginsvr/logic/util"
 	"mloginsvr/models"
 	"net/http"
 	"strings"
@@ -13,11 +14,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gomodule/redigo/redis"
 )
-
-type hallSvrverInfo struct {
-	Address string
-	Svrname string
-}
 
 //askAccountLogin 客户端账号登入的请求信息
 type askAccountLogin struct {
@@ -28,9 +24,9 @@ type askAccountLogin struct {
 
 //replyAccLogin 用户账号登入成功后的返回信息
 type replyAccLogin struct {
-	Userid  int64            `json:"userid"`
-	Token   string           `json:"token"`
-	Svrlist []hallSvrverInfo `json:"svrlist"`
+	Userid  int64                   `json:"userid"`
+	Token   string                  `json:"token"`
+	Svrlist []global.HallSvrverInfo `json:"svrlist"`
 }
 
 //AccountLogin 账号密码登入
@@ -43,7 +39,7 @@ func AccountLogin(c *gin.Context) {
 	}
 	log.Logger.Debugf("%+v", data)
 
-	acc := new(models.Account)
+	var acc models.Account
 	if !acc.GetByUsername(data.Username) {
 		c.JSON(http.StatusOK, global.GetResultData(global.CodeLoginFail, "账号不存在", nil))
 		return
@@ -59,51 +55,16 @@ func AccountLogin(c *gin.Context) {
 		}
 
 		//生成token
-		token := new(models.Token)
-		token.Userid = acc.Userid
-		//生成token
-		token.Token = global.GetLoginToken(acc.Userid)
-		log.Logger.Debug("create token:" + token.Token)
-
-		if !token.InsertOrUpdate() {
-			c.JSON(http.StatusOK, global.GetResultData(global.CodeLoginFail, "db error", nil))
-			return
-		}
-		log.Logger.Debugln("token 写入db完成")
-
-		//token放进redis====================================
-		u := global.RedisUserInfo{Gender: 0, CompleteRealname: false, Age: 0}
-		u.Token = token.Token
-		u.Nickname = acc.Nickname
-		u.Accounttype = acc.Accounttype
-		//u.Indentity = acc.Identity
-		//获得实名信息
-		var userinfo models.UserRealInfo
-		if userinfo.GetByUserid(acc.Userid) {
-			u.CompleteRealname = true
-			u.Gender = userinfo.Gender
-			u.Age = global.GetCitizenAge([]byte(userinfo.Identity), false)
-		}
-
-		var key = fmt.Sprintf("token_%d", token.Userid)
-		if val, err := json.Marshal(u); err == nil {
-			db.GetRedis().Do("SET", key, string(val), "EX", 60)
-		}
-
-		// args := global.StructToRedis(str, u)
-		// _, err := db.GetRedis().Do("HMSET", args...)
-		// if err != nil {
-		// 	log.Logger.Errorln("redis write token err:", err)
-		// } else {
-		// 	db.GetRedis().Do("EXPIRE", str, 60*30)
-		// }
-		//===========================================================
+		token := global.GetLoginToken(acc.Userid)
+		log.Logger.Debug("create token:" + token)
+		//token放进redis
+		util.InsertTokenToRedis(token, acc)
 
 		var reply replyAccLogin
-		reply.Userid = token.Userid
-		reply.Token = token.Token
+		reply.Userid = acc.Userid
+		reply.Token = token
 		//渠道分发及负载均衡策略-下发大厅服务器ip+端口
-		reply.Svrlist = hallLoadBalanced(data.Channel)
+		reply.Svrlist = util.HallLoadBalanced(data.Channel)
 
 		c.JSON(http.StatusOK, global.GetResultSucData(reply))
 		return
@@ -137,7 +98,7 @@ func CheckLoginToken(c *gin.Context) {
 	}
 	log.Logger.Debugf("%+v", data)
 
-	//先在Redis寻找==================================
+	//在Redis寻找==================================
 	var str = fmt.Sprintf("token_%d", data.Userid)
 	if re, err := redis.String(db.GetRedis().Do("GET", str)); err == nil {
 		var u global.RedisUserInfo
@@ -156,55 +117,11 @@ func CheckLoginToken(c *gin.Context) {
 				c.JSON(http.StatusOK, global.GetResultSucData(reply))
 				return
 			}
-			//验证失败
-			c.JSON(http.StatusOK, global.GetResultData(global.CodeCheckTokenFail, "token 错误", nil))
-			return
 		}
 	}
 
-	//mysql里查验===========================
-	token := new(models.Token)
-	token.GetByUserid(data.Userid)
-	if token.Token == data.Token {
-		//acc := new(models.Account)
-		var acc models.Account
-		acc.GetByUserid(data.Userid)
-
-		//验证通过
-		reply := replyCheckLoginToken{Gender: 0, CompleteRealname: false, Age: 0}
-		reply.Userid = data.Userid
-		reply.Nickname = acc.Nickname
-		reply.Accounttype = acc.Accounttype
-
-		var info models.UserRealInfo
-		if info.GetByUserid(data.Userid) {
-			reply.Gender = info.Gender
-			reply.CompleteRealname = true
-			reply.Age = global.GetCitizenAge([]byte(info.Identity), false)
-		}
-
-		c.JSON(http.StatusOK, global.GetResultSucData(reply))
-		return
-	}
 	//验证失败
 	c.JSON(http.StatusOK, global.GetResultData(global.CodeCheckTokenFail, "token 错误", nil))
 	return
 
-}
-
-//hallLoadBalanced 大厅渠道分发及负载策略
-func hallLoadBalanced(channel int) []hallSvrverInfo {
-	var result []hallSvrverInfo
-	//渠道分发
-	for _, v := range global.HallList {
-		if (channel&v.Channel) > 0 && v.Status == 0 {
-			result = append(result, hallSvrverInfo{v.Address, v.Servername})
-		}
-	}
-	// 负载均衡
-	// if len(result) > 1 {
-
-	// }
-
-	return result
 }

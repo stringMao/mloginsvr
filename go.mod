@@ -7,7 +7,9 @@ require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.819
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
+	github.com/garyburd/redigo v1.6.0
 	github.com/gin-gonic/gin v1.6.3
+	github.com/go-kratos/kratos v1.0.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-xorm/xorm v0.7.9
 	github.com/gomodule/redigo v1.8.3

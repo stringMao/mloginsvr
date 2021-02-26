@@ -12,6 +12,7 @@ import (
 	"mloginsvr/logic/signin"
 	"mloginsvr/logic/signup"
 	"mloginsvr/middle"
+	"mloginsvr/sdk/wechat"
 )
 
 var router = gin.Default()
@@ -68,5 +69,9 @@ func clientRGRouter(group *gin.RouterGroup) {
 	group.POST(strings.ToLower("/applysms"), signup.ApplySMSVerificationCode)
 	//忘记密码重置密码
 	group.POST(strings.ToLower("/resetpasswd"), signup.LostPasswd)
+	//微信登入-code
+	group.POST(strings.ToLower("/wechat/codelogin"), wechat.GetAccessTokenByCode)
+	//微信登入-access_token
+	group.POST(strings.ToLower("/wechat/accesstokenlogin"), wechat.LoginByAccessToken)
 
 }
