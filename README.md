@@ -10,7 +10,7 @@ mloginsvr+Gin搭建的登入服务器架构。它意在帮助游戏服务端开�
 
 
 ## 服务器架构
-![](./readme/image/url-1.jpg)
+![](https://github.com/stringMao/mloginsvr/readme/image/url-1.jpg)
 - 1：client账号密码登入
 - 2：登入服务器进行数据库验证，并且生成token
 - 3：将token和大厅服务器地址返回给client
