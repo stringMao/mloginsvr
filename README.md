@@ -1,5 +1,5 @@
 # mloginsvr
-mloginsvr+Gin搭建的登入服务器架构。它意在帮助游戏服务端开发快速的搭建“登入服务器”。
+mloginsvr是基于http协议开发的“登录服务器”架构。它可以帮助游戏服务端开发快速的搭建“登录服务器”。
 
 
 ## 环境
@@ -10,31 +10,33 @@ mloginsvr+Gin搭建的登入服务器架构。它意在帮助游戏服务端开�
 
 
 ## 服务器架构
-![](https://github.com/stringMao/mloginsvr/tree/main/readme/image/url-1.jpg)
-- 1：client账号密码登入
-- 2：登入服务器进行数据库验证，并且生成token
-- 3：将token和大厅服务器地址返回给client
-- 4：client用token登入大厅
-- 5：大厅向登入服务器验证token，并且获得账号信息
+![](https://github.com/stringMao/mloginsvr/raw/main/readme/image/url-1.jpg)
+- 1：获得登录服务器信息 
+- 2：client请求登录，“登入服务器”进行数据库验证，并且下发userid,token,大厅服务器列表等信息
+- 3：client使用userid,token向某个大厅服务器请求登录
+- 4：“大厅服务器”调用“登入服务器”接口，验证并且获得用户部分信息
+- 5：“大厅服务器”返回登录成功及用户数据
 
 
 
 ## 功能
-1. 登入
-   -  账号密码登入
+1. 登录
+   -  账号密码登录
    -  负载均衡
    -  渠道分发
    -  token验证
 2. 注册
    - 手机号注册
      - 短信验证码
-   - 修改默认昵称
+   - 修改昵称
      - 敏感词检测
    - 密码
      - 忘记密码
 3. 第三方登入
    - 微信登入
 4. 实名认证
+   - 实名登记
+   - 未成年判断
    
 
 
