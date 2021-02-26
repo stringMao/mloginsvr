@@ -10,7 +10,7 @@ mloginsvr是基于http协议开发的“登录服务器”架构。它可以帮�
 
 
 ## 服务器架构
-![](https://github.com/stringMao/mloginsvr/raw/main/readme/image/url.jpg)
+![登录流程图](https://github.com/stringMao/mloginsvr/raw/main/readme/image/url.jpg)
 
 - 1：获得登录服务器信息。
 - 2：client请求登录，“登入服务器”进行数据库验证，并且下发userid,token,大厅服务器列表等信息。
